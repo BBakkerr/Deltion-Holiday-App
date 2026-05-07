@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 import styles from './styles/globalStyles';
+
 // COMPONENTS
 import Header from './components/Header';
 
@@ -19,13 +20,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Header setPage={setPage} />
-          
+
       {/* CONTENT */}
       <View style={styles.content}>
         {page === 'Countdown' && <Countdown />}
-          {page === 'Overzicht' && <Overzicht />}
-          {page === 'About' && <About />}
-          {page === 'Settings' && <Settings />}
+        {page === 'Overzicht' && <Overzicht />}
+        {page === 'About' && <About />}
+        {page === 'Settings' && <Settings />}
       </View>
 
       <StatusBar style="light" />
