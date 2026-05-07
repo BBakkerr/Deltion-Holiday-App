@@ -1,15 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-// HEADER
+import { useState } from 'react';
+import styles from './styles/globalStyles';
+// COMPONENTS
 import Header from './components/Header';
 
-import Countdown from './screens/Countdown';
-import Overzicht from './screens/Overzicht';
-import About from './screens/About';
-import Settings from './screens/Settings';
+// SCREENS
+import Countdown from './screens/CountdownScreen';
+import Overzicht from './screens/OverzichtScreen';
+import About from './screens/AboutScreen';
+import Settings from './screens/SettingsScreen';
+
 
 
 export default function App() {
+  const [page, setPage] = useState('Countdown');
+
   return (
     <View style={styles.container}>
       <Header setPage={setPage} />
@@ -27,13 +33,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    padding: 15,
-  },
-
-});

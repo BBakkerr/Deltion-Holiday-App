@@ -25,9 +25,11 @@ export default function Header({ setPage }) {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    paddingTop: 50,
-    padding: 15,
-    backgroundColor: '#ff6600',
+  container: {
+    flex: 1,
+  },
+
+  content: {
+    flex: 1,
   },
 });
