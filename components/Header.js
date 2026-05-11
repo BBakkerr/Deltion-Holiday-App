@@ -5,7 +5,7 @@ export default function Header({ setPage }) {
         <View style={styles.logo}>
             <Text>Deltion Holiday App</Text>
            <Pressable onPress={() => setPage('Countdown')}>
-                    <Text>Countdown</Text>
+                
                 </Pressable>
             <View style={styles.nav}>
                 <Pressable onPress={() => setPage('Countdown')}>
