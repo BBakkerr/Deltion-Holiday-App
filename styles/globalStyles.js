@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
+const isMobile = screenWidth < 700;
 
 const styles = StyleSheet.create({
 
@@ -7,50 +10,98 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
   },
 
-  logo: {
-    paddingTop: 50,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    backgroundColor: '#ff6600',
+  content: {
+    flex: 1,
   },
 
-  nav: {
+  // Header
+  headerSafeArea: {
+    backgroundColor: '#ff6600',
+    zIndex: 999,
+  },
+
+  logo: {
+    backgroundColor: '#ff6600',
+    paddingHorizontal: 25,
+    paddingTop: isMobile ? 35 : 20,
+    paddingBottom: 20,
+  },
+
+  headerTop: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 15,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   title: {
-    fontSize: 24,
+    fontSize: isMobile ? 26 : 36,
     fontWeight: 'bold',
     color: '#fff',
   },
 
+  // Hamburger
+  hamburger: {
+    display: isMobile ? 'flex' : 'none',
+    padding: 10,
+  },
+
+  hamburgerText: {
+    fontSize: 34,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
+  // Navigation
+  nav: {
+    display: isMobile ? 'none' : 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    justifyContent: 'flex-end',
+    alignItems: isMobile ? 'flex-start' : 'center',
+    gap: isMobile ? 18 : 25,
+    marginTop: isMobile ? 20 : -35,
+  },
+
+  navOpen: {
+    display: 'flex',
+  },
+
+  navText: {
+    fontSize: isMobile ? 22 : 24,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+
+  activeNavText: {
+    color: '#0057d9',
+  },
+
+  // Screen
   screen: {
     flex: 1,
     backgroundColor: '#f2f2f2',
   },
 
+  // Info Block
   infoBlock: {
     padding: 20,
     marginTop: 10,
   },
 
   infoTitle: {
-    fontSize: 24,
+    fontSize: isMobile ? 22 : 28,
     fontWeight: 'bold',
     color: '#000',
   },
 
   infoYear: {
-    fontSize: 20,
+    fontSize: isMobile ? 18 : 22,
     fontWeight: 'bold',
     marginTop: 5,
     color: '#000',
   },
 
   infoGps: {
-    fontSize: 18,
+    fontSize: isMobile ? 16 : 20,
     marginTop: 5,
     color: '#000',
   },
@@ -59,32 +110,37 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  // Countdown
   countdownWrapper: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: isMobile ? 70 : 40,
   },
 
   countdownBox: {
     width: '85%',
     maxWidth: 500,
-    height: 220,
+    minHeight: 220,
     backgroundColor: '#ff6600',
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
 
   countdownText: {
-    fontSize: 32,
-    fontWeight: '500',
+    fontSize: isMobile ? 40 : 52,
+    fontWeight: 'bold',
     color: '#000',
+    textAlign: 'center',
   },
+
   holidayName: {
-    fontSize: 20,
-    marginTop: 10,
+    fontSize: isMobile ? 28 : 30,
+    marginTop: 15,
     color: '#000',
+    textAlign: 'center',
   },
 
 });
