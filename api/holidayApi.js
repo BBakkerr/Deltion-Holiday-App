@@ -6,8 +6,6 @@ export async function getHolidayData() {
 
     const data = await response.json();
 
-    console.log(data);
-
     return data;
   } catch (error) {
     console.log('API error:', error);

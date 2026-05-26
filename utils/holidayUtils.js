@@ -1,22 +1,25 @@
-export function getSchoolYear(data, year) {
+export function getVacationsForSchoolYear(apiData, schoolYear, region) {
+  if (!apiData) return [];
 
-  return data.find(
-    (item) =>
-      item.content[0].schoolyear.trim() === year
+  const yearData = apiData.content.find(
+    item => item.schoolyear.trim() === schoolYear
   );
-}
 
-export function getSummerHoliday(vacations) {
+  if (!yearData) return [];
 
-  return vacations.find(
-    (holiday) =>
-      holiday.type.trim() === 'Zomervakantie'
-  );
-}
+  return yearData.vacations.map(vacation => {
+    const vacationRegion =
+      vacation.regions.find(r => r.region === region.toLowerCase()) ||
+      vacation.regions.find(r => r.region === 'heel Nederland');
 
-export function getRegionData(holiday, region) {
+    if (!vacationRegion) return null;
 
-  return holiday.regions.find(
-    (item) => item.region === region
-  );
+    return {
+      name: vacation.type.trim(),
+      compulsory: vacation.compulsorydates === 'true',
+      startDate: vacationRegion.startdate,
+      endDate: vacationRegion.enddate,
+      region: vacationRegion.region,
+    };
+  }).filter(Boolean);
 }

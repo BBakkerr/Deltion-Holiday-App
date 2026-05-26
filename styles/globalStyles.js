@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: isMobile ? 70 : 40,
+    marginTop: isMobile ? 160 : 200,
   },
 
   countdownBox: {
@@ -143,6 +143,78 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  // About
+  containerAbout: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  // Settings
+  containerSettings: {
+    flex: 1,
+    paddingTop: 80,
+    alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+    gap: 30,
+  },
+
+  titleSettings: {
+    fontSize: isMobile ? 28 : 36,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+
+  settingBox: {
+    width: '85%',
+    maxWidth: 500,
+    minHeight: 80,
+    backgroundColor: '#ea8458',
+    borderRadius: 20,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    paddingHorizontal: 25,
+  },
+
+  settingLabel: {
+    fontSize: isMobile ? 24 : 28,
+    color: '#000',
+  },
+
+  settingValue: {
+    fontSize: isMobile ? 24 : 28,
+    color: '#000',
+  },
+
+  schoolInput: {
+    fontSize: isMobile ? 24 : 24,
+    color: '#000',
+    backgroundColor: '#f5a57d',
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    minWidth: 50,
+    textAlign: 'right',
+  },
+
+  saveButton: {
+    width: 180,
+    height: 70,
+
+    backgroundColor: '#ea8458',
+    borderRadius: 20,
+
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  saveButtonText: {
+    fontSize: 24,
+    color: '#000',
+  },
 });
 
 export default styles;

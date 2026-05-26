@@ -3,8 +3,8 @@ import { View, Text } from 'react-native';
 
 import styles from '../styles/globalStyles';
 
-// import { getHolidayData } from '../api/holidayApi';
-import { holidayData } from '../api/data/holidayData';
+import { getHolidayData } from '../api/holidayApi';
+// import { holidayData } from '../api/data/holidayData';
 
 import {
   getSchoolYear,
@@ -26,7 +26,7 @@ export default function CountdownScreen() {
 
   async function loadData() {
 
-    const data = holidayData;
+    const data = await getHolidayData();
 
     const schoolData =
       getSchoolYear(data, '2025-2026');
