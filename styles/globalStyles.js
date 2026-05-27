@@ -4,7 +4,6 @@ const screenWidth = Dimensions.get('window').width;
 const isMobile = screenWidth < 700;
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: '#f2f2f2',
@@ -14,7 +13,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Header
   headerSafeArea: {
     backgroundColor: '#ff6600',
     zIndex: 999,
@@ -39,7 +37,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
-  // Hamburger
   hamburger: {
     display: isMobile ? 'flex' : 'none',
     padding: 10,
@@ -51,7 +48,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // Navigation
   nav: {
     display: isMobile ? 'none' : 'flex',
     flexDirection: isMobile ? 'column' : 'row',
@@ -72,16 +68,14 @@ const styles = StyleSheet.create({
   },
 
   activeNavText: {
-    color: '#0057d9',
+    color: '#343368',
   },
 
-  // Screen
   screen: {
     flex: 1,
     backgroundColor: '#f2f2f2',
   },
 
-  // Info Block
   infoBlock: {
     padding: 20,
     marginTop: 10,
@@ -110,7 +104,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // Countdown
   countdownWrapper: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -143,26 +136,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  // About
   containerAbout: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  // Settings
   containerSettings: {
     flex: 1,
     paddingTop: 80,
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
-    gap: 30,
+    gap: 25,
   },
 
   titleSettings: {
     fontSize: isMobile ? 28 : 36,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#fff',
   },
 
   settingBox: {
@@ -171,49 +162,47 @@ const styles = StyleSheet.create({
     minHeight: 80,
     backgroundColor: '#ea8458',
     borderRadius: 20,
-
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
     paddingHorizontal: 25,
   },
 
   settingLabel: {
     fontSize: isMobile ? 24 : 28,
-    color: '#000',
+    color: '#fff',
   },
 
   settingValue: {
     fontSize: isMobile ? 24 : 28,
-    color: '#000',
+    color: '#fff',
   },
 
   schoolInput: {
-    fontSize: isMobile ? 24 : 24,
+    fontSize: isMobile ? 20 : 24,
     color: '#000',
-    backgroundColor: '#f5a57d',
+    backgroundColor: '#f4b393',
     borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 8,
-    minWidth: 50,
+    minWidth: 150,
     textAlign: 'right',
   },
 
   saveButton: {
-    width: 180,
+    width: '85%',
+    maxWidth: 500,
     height: 70,
-
     backgroundColor: '#ea8458',
     borderRadius: 20,
-
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 5,
   },
 
   saveButtonText: {
     fontSize: 24,
-    color: '#000',
+    color: '#fff',
   },
 });
 
