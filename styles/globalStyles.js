@@ -204,6 +204,20 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#fff',
   },
+
+  savedMessageBox: {
+  backgroundColor: '#ded8da',
+  paddingHorizontal: 30,
+  paddingVertical: 18,
+  borderRadius: 15,
+  marginTop: 5,
+},
+
+savedMessageText: {
+  fontSize: 18,
+  color: '#000',
+},
+
 });
 
 export default styles;
