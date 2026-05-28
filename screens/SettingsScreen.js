@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Keyboard,
-  TouchableWithoutFeedback,
+  View, Text, TouchableOpacity, TextInput, Keyboard, TouchableWithoutFeedback,
 } from 'react-native';
 
 import styles from '../styles/globalStyles';
@@ -15,23 +10,95 @@ export default function SettingsScreen() {
   const [schoolYear, setSchoolYear] = useState('2025-2026');
   const [savedMessage, setSavedMessage] = useState(false);
 
-  function saveSettings() {
-    Keyboard.dismiss();
-    setSavedMessage(true);
+  const [region, setRegion] = useState('Noord');
+  const [regionOpen, setRegionOpen] = useState(false);
 
-    setTimeout(() => {
-      setSavedMessage(false);
-    }, 2000);
-  }
+  const [gps, setGps] = useState('Actief');
+  const [gpsOpen, setGpsOpen] = useState(false);
+
+async function saveSettings() {
+  Keyboard.dismiss();
+
+  await AsyncStorage.setItem('region', region);
+  await AsyncStorage.setItem('gps', gps);
+  await AsyncStorage.setItem('schoolYear', schoolYear);
+
+  setSavedMessage(true);
+
+  setTimeout(() => {
+    setSavedMessage(false);
+  }, 2000);
+}
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.containerSettings}>
 
-        <View style={styles.settingBox}>
+        <TouchableOpacity
+          style={styles.settingBox}
+          onPress={() => setRegionOpen(!regionOpen)}
+        >
           <Text style={styles.settingLabel}>Regio:</Text>
-          <Text style={styles.settingValue}>Noord</Text>
-        </View>
+          <Text style={styles.settingValue}>{region}</Text>
+          <Text style={styles.settingValue}>{regionOpen ? '∧' : '∨'}</Text>
+        </TouchableOpacity>
+
+        {regionOpen && (
+          <View style={styles.dropdown}>
+            {['Noord', 'Midden', 'Zuid'].map(item => (
+              <TouchableOpacity
+                key={item}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setRegion(item);
+                  setRegionOpen(false);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.dropdownText,
+                    item === region && styles.activeDropdownText
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        <TouchableOpacity
+          style={styles.settingBox}
+          onPress={() => setGpsOpen(!gpsOpen)}
+        >
+          <Text style={styles.settingLabel}>GPS:</Text>
+          <Text style={styles.settingValue}>{gps}</Text>
+          <Text style={styles.settingValue}>{gpsOpen ? '∧' : '∨'}</Text>
+        </TouchableOpacity>
+
+        {gpsOpen && (
+          <View style={styles.dropdown}>
+            {['Actief', 'Uit'].map(item => (
+              <TouchableOpacity
+                key={item}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setGps(item);
+                  setGpsOpen(false);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.dropdownText,
+                    item === gps && styles.activeDropdownText
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
 
         <View style={styles.settingBox}>
           <Text style={styles.settingLabel}>Schooljaar:</Text>
@@ -45,11 +112,6 @@ export default function SettingsScreen() {
             onSubmitEditing={Keyboard.dismiss}
             blurOnSubmit={true}
           />
-        </View>
-
-        <View style={styles.settingBox}>
-          <Text style={styles.settingLabel}>GPS:</Text>
-          <Text style={styles.settingValue}>Actief</Text>
         </View>
 
         <TouchableOpacity
@@ -66,8 +128,9 @@ export default function SettingsScreen() {
             </Text>
           </View>
         )}
-
+      
       </View>
     </TouchableWithoutFeedback>
+    
   );
 }

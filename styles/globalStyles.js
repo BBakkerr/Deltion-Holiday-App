@@ -125,10 +125,10 @@ const styles = StyleSheet.create({
   countdownText: {
     fontSize: isMobile ? 40 : 52,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#fff',
     textAlign: 'center',
   },
-
+// Holiday name styles
   holidayName: {
     fontSize: isMobile ? 28 : 30,
     marginTop: 15,
@@ -136,11 +136,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  containerAbout: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+ containerAbout: {
+  paddingHorizontal: 25,
+  paddingTop: 20,
+},
 
   containerSettings: {
     flex: 1,
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
     gap: 25,
   },
-
+// Settings  styles
   titleSettings: {
     fontSize: isMobile ? 28 : 36,
     fontWeight: 'bold',
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
     minWidth: 150,
     textAlign: 'right',
   },
-
+// Save button styles
   saveButton: {
     width: '85%',
     maxWidth: 500,
@@ -217,7 +216,34 @@ savedMessageText: {
   fontSize: 18,
   color: '#000',
 },
+// Dropdown styles
+dropdown: {
+  width: '82%',
+  maxWidth: 500,
+  backgroundColor: '#ded8da',
+  borderRadius: 10,
+  marginTop: -18,
+  marginBottom: 12,
+  overflow: 'hidden',
+},
 
+dropdownItem: {
+  paddingVertical: 12,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderBottomWidth: 1,
+  borderBottomColor: '#f3f3f3',
+},
+
+dropdownText: {
+  fontSize: 20,
+  color: '#777',
+},
+
+activeDropdownText: {
+  color: '#49a010',
+  fontWeight: 'bold',
+},
 });
 
 export default styles;

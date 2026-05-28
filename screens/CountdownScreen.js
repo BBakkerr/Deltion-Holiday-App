@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
-
+import InfoBlock from '../components/InfoBlock';
 import { getHolidayData } from '../api/holidayApi';
 
 export default function CountdownScreen() {
@@ -22,6 +22,7 @@ export default function CountdownScreen() {
   return (
     <View>
       <Text>Countdown Screen</Text>
+      <InfoBlock />
     </View>
   );
 }
