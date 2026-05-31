@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 
 import {
   View,
   Text,
   TouchableOpacity,
   Keyboard,
-  ScrollView,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 
 import styles from '../styles/globalStyles';
+
 import { generateSchoolYears } from '../utils/holidayUtils';
+import { getRegionFromProvince } from '../utils/regionUtils';
 
 export default function SettingsScreen() {
   const [schoolYear, setSchoolYear] =
@@ -22,7 +26,7 @@ export default function SettingsScreen() {
     useState(false);
 
   const [savedMessage, setSavedMessage] =
-    useState(false);
+    useState('');
 
   const [region, setRegion] =
     useState('Noord');
@@ -31,7 +35,7 @@ export default function SettingsScreen() {
     useState(false);
 
   const [gps, setGps] =
-    useState('Actief');
+    useState('Uit');
 
   const [gpsOpen, setGpsOpen] =
     useState(false);
@@ -49,21 +53,47 @@ export default function SettingsScreen() {
       const savedSchoolYear =
         await AsyncStorage.getItem('schoolYear');
 
-      if (savedRegion) {
-        setRegion(savedRegion);
-      }
-
-      if (savedGps) {
-        setGps(savedGps);
-      }
-
-      if (savedSchoolYear) {
-        setSchoolYear(savedSchoolYear);
-      }
+      if (savedRegion) setRegion(savedRegion);
+      if (savedGps) setGps(savedGps);
+      if (savedSchoolYear) setSchoolYear(savedSchoolYear);
     }
 
     loadSettings();
   }, []);
+
+  async function updateRegionFromGps() {
+    const { status } =
+      await Location.requestForegroundPermissionsAsync();
+
+    if (status !== 'granted') {
+      setGps('Uit');
+      return;
+    }
+
+    const location =
+      await Location.getCurrentPositionAsync({});
+
+    const result =
+      await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+
+    const province = result[0]?.region;
+
+    const detectedRegion =
+      getRegionFromProvince(province);
+
+    if (!detectedRegion) {
+      return;
+    }
+
+    const formattedRegion =
+      detectedRegion.charAt(0).toUpperCase() +
+      detectedRegion.slice(1);
+
+    setRegion(formattedRegion);
+  }
 
   async function saveSettings() {
     Keyboard.dismiss();
@@ -83,60 +113,74 @@ export default function SettingsScreen() {
       String(schoolYear)
     );
 
-    setSavedMessage(true);
+    if (gps === 'Actief') {
+      setSavedMessage(`Locatie: Regio ${region}`);
+    } else {
+      setSavedMessage('Instellingen opgeslagen');
+    }
 
     setTimeout(() => {
-      setSavedMessage(false);
+      setSavedMessage('');
     }, 2000);
   }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.containerSettings}>
+      <ScrollView
+        style={styles.containerSettings}
+        contentContainerStyle={
+          styles.containerSettingsContent
+        }
+        keyboardShouldPersistTaps="handled"
+      >
 
         {/* REGIO */}
-        <TouchableOpacity
-          style={styles.settingBox}
-          onPress={() =>
-            setRegionOpen(!regionOpen)
-          }
-        >
-          <Text style={styles.settingLabel}>
-            Regio:
-          </Text>
+        {gps === 'Uit' && (
+          <>
+            <TouchableOpacity
+              style={styles.settingBox}
+              onPress={() =>
+                setRegionOpen(!regionOpen)
+              }
+            >
+              <Text style={styles.settingLabel}>
+                Regio:
+              </Text>
 
-          <Text style={styles.settingValue}>
-            {region}
-          </Text>
+              <Text style={styles.settingValue}>
+                {region}
+              </Text>
 
-          <Text style={styles.settingValue}>
-            {regionOpen ? '∧' : '∨'}
-          </Text>
-        </TouchableOpacity>
+              <Text style={styles.settingValue}>
+                {regionOpen ? '∧' : '∨'}
+              </Text>
+            </TouchableOpacity>
 
-        {regionOpen && (
-          <View style={styles.dropdown}>
-            {['Noord', 'Midden', 'Zuid'].map(item => (
-              <TouchableOpacity
-                key={item}
-                style={styles.dropdownItem}
-                onPress={() => {
-                  setRegion(item);
-                  setRegionOpen(false);
-                }}
-              >
-                <Text
-                  style={[
-                    styles.dropdownText,
-                    item === region &&
-                    styles.activeDropdownText,
-                  ]}
-                >
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+            {regionOpen && (
+              <View style={styles.dropdown}>
+                {['Noord', 'Midden', 'Zuid'].map(item => (
+                  <TouchableOpacity
+                    key={item}
+                    style={styles.dropdownItem}
+                    onPress={() => {
+                      setRegion(item);
+                      setRegionOpen(false);
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.dropdownText,
+                        item === region &&
+                        styles.activeDropdownText,
+                      ]}
+                    >
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </>
         )}
 
         {/* GPS */}
@@ -165,9 +209,13 @@ export default function SettingsScreen() {
               <TouchableOpacity
                 key={item}
                 style={styles.dropdownItem}
-                onPress={() => {
+                onPress={async () => {
                   setGps(item);
                   setGpsOpen(false);
+
+                  if (item === 'Actief') {
+                    await updateRegionFromGps();
+                  }
                 }}
               >
                 <Text
@@ -182,6 +230,12 @@ export default function SettingsScreen() {
               </TouchableOpacity>
             ))}
           </View>
+        )}
+        {gps === 'Actief' && (
+          <MapView
+            style={styles.map}
+            showsUserLocation={true}
+          />
         )}
 
         {/* SCHOOLJAAR */}
@@ -242,15 +296,15 @@ export default function SettingsScreen() {
           </Text>
         </TouchableOpacity>
 
-        {/* SAVED MESSAGE */}
-        {savedMessage && (
+        {savedMessage !== '' && (
           <View style={styles.savedMessageBox}>
             <Text style={styles.savedMessageText}>
-              Instellingen opgeslagen
+              {savedMessage}
             </Text>
           </View>
         )}
-      </View>
+
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }

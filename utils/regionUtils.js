@@ -1,4 +1,7 @@
 export function getRegionFromProvince(province) {
+  if (!province) {
+    return null;
+  }
 
   const noord = [
     'flevoland',
@@ -22,7 +25,7 @@ export function getRegionFromProvince(province) {
   ];
 
   const lowerProvince =
-    province.toLowerCase();
+    province.toLowerCase().trim();
 
   if (noord.includes(lowerProvince)) {
     return 'noord';
@@ -36,5 +39,5 @@ export function getRegionFromProvince(province) {
     return 'zuid';
   }
 
-  return 'noord';
+  return null;
 }

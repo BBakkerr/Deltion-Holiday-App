@@ -141,14 +141,19 @@ const styles = StyleSheet.create({
   paddingTop: 20,
 },
 
-  containerSettings: {
-    flex: 1,
-    paddingTop: 80,
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
-    gap: 25,
-  },
+ containerSettings: {
+  flex: 1,
+  backgroundColor: '#f2f2f2',
+},
+
+containerSettingsContent: {
+  paddingTop: 80,
+  alignItems: 'center',
+  gap: 25,
+  paddingBottom: 100,
+},
 // Settings  styles
+
   titleSettings: {
     fontSize: isMobile ? 28 : 36,
     fontWeight: 'bold',
@@ -244,6 +249,16 @@ dropdownText: {
 activeDropdownText: {
   color: '#49a010',
   fontWeight: 'bold',
+},
+
+// Map styles
+map: {
+  width: '85%',
+  height: 180,
+  borderRadius: 20,
+  marginTop: 15,
+  marginBottom: 15,
+  alignSelf: 'center',
 },
 });
 
