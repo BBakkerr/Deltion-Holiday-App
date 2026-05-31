@@ -6,17 +6,17 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
 
 import styles from '../styles/globalStyles';
+import { generateSchoolYears } from '../utils/holidayUtils';
 
 export default function SettingsScreen() {
 
-  const [schoolYear, setSchoolYear] =
-    useState('2025-2026');
+  const [schoolYearOpen, setSchoolYearOpen] =
+    useState(false);
 
   const [savedMessage, setSavedMessage] =
     useState(false);
@@ -90,6 +90,8 @@ export default function SettingsScreen() {
     }, 2000);
 
   }
+
+  const schoolYears = generateSchoolYears();
 
   return (
 
@@ -198,20 +200,49 @@ export default function SettingsScreen() {
 
         {/* SCHOOLJAAR */}
 
-        <View style={styles.settingBox}>
+        <TouchableOpacity
+          style={styles.settingBox}
+          onPress={() =>
+            setSchoolYearOpen(!schoolYearOpen)
+          }
+        >
           <Text style={styles.settingLabel}>
             Schooljaar:
           </Text>
-          <TextInput
-            style={styles.schoolInput}
-            value={schoolYear}
-            onChangeText={setSchoolYear}
-            keyboardType="numbers-and-punctuation"
-            returnKeyType="done"
-            onSubmitEditing={Keyboard.dismiss}
-            blurOnSubmit={true}
-          />
-        </View>
+
+          <Text style={styles.settingValue}>
+            {schoolYear}
+          </Text>
+
+          <Text style={styles.settingValue}>
+            {schoolYearOpen ? '∧' : '∨'}
+          </Text>
+        </TouchableOpacity>
+
+        {schoolYearOpen && (
+          <View style={styles.dropdown}>
+            {schoolYears.map(item => (
+              <TouchableOpacity
+                key={item}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setSchoolYear(item);
+                  setSchoolYearOpen(false);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.dropdownText,
+                    item === schoolYear &&
+                    styles.activeDropdownText
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
 
         {/* BUTTON */}
         <TouchableOpacity
