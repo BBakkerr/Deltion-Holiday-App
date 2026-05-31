@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Keyboard,
+  ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
 
@@ -14,6 +15,8 @@ import styles from '../styles/globalStyles';
 import { generateSchoolYears } from '../utils/holidayUtils';
 
 export default function SettingsScreen() {
+  const [schoolYear, setSchoolYear] =
+    useState('2025-2026');
 
   const [schoolYearOpen, setSchoolYearOpen] =
     useState(false);
@@ -33,10 +36,10 @@ export default function SettingsScreen() {
   const [gpsOpen, setGpsOpen] =
     useState(false);
 
+  const schoolYears = generateSchoolYears();
+
   useEffect(() => {
-
     async function loadSettings() {
-
       const savedRegion =
         await AsyncStorage.getItem('region');
 
@@ -57,15 +60,12 @@ export default function SettingsScreen() {
       if (savedSchoolYear) {
         setSchoolYear(savedSchoolYear);
       }
-
     }
 
     loadSettings();
-
   }, []);
 
   async function saveSettings() {
-
     Keyboard.dismiss();
 
     await AsyncStorage.setItem(
@@ -88,28 +88,19 @@ export default function SettingsScreen() {
     setTimeout(() => {
       setSavedMessage(false);
     }, 2000);
-
   }
 
-  const schoolYears = generateSchoolYears();
-
   return (
-
-    <TouchableWithoutFeedback
-      onPress={Keyboard.dismiss}
-    >
-
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.containerSettings}>
 
         {/* REGIO */}
-
         <TouchableOpacity
           style={styles.settingBox}
           onPress={() =>
             setRegionOpen(!regionOpen)
           }
         >
-
           <Text style={styles.settingLabel}>
             Regio:
           </Text>
@@ -117,6 +108,7 @@ export default function SettingsScreen() {
           <Text style={styles.settingValue}>
             {region}
           </Text>
+
           <Text style={styles.settingValue}>
             {regionOpen ? '∧' : '∨'}
           </Text>
@@ -124,29 +116,26 @@ export default function SettingsScreen() {
 
         {regionOpen && (
           <View style={styles.dropdown}>
-
-            {['Noord', 'Midden', 'Zuid']
-              .map(item => (
-                <TouchableOpacity
-                  key={item}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setRegion(item);
-                    setRegionOpen(false);
-                  }}
+            {['Noord', 'Midden', 'Zuid'].map(item => (
+              <TouchableOpacity
+                key={item}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setRegion(item);
+                  setRegionOpen(false);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.dropdownText,
+                    item === region &&
+                    styles.activeDropdownText,
+                  ]}
                 >
-                  <Text
-                    style={[
-                      styles.dropdownText,
-
-                      item === region &&
-                      styles.activeDropdownText
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         )}
 
@@ -160,9 +149,11 @@ export default function SettingsScreen() {
           <Text style={styles.settingLabel}>
             GPS:
           </Text>
+
           <Text style={styles.settingValue}>
             {gps}
           </Text>
+
           <Text style={styles.settingValue}>
             {gpsOpen ? '∧' : '∨'}
           </Text>
@@ -170,36 +161,30 @@ export default function SettingsScreen() {
 
         {gpsOpen && (
           <View style={styles.dropdown}>
-            {['Actief', 'Uit']
-              .map(item => (
-                <TouchableOpacity
-                  key={item}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setGps(item);
-                    setGpsOpen(false);
-                  }}
+            {['Actief', 'Uit'].map(item => (
+              <TouchableOpacity
+                key={item}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setGps(item);
+                  setGpsOpen(false);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.dropdownText,
+                    item === gps &&
+                    styles.activeDropdownText,
+                  ]}
                 >
-                  <Text
-                    style={[
-                      styles.dropdownText,
-
-                      item === gps &&
-                      styles.activeDropdownText
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-
-              ))}
-
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
-
         )}
 
         {/* SCHOOLJAAR */}
-
         <TouchableOpacity
           style={styles.settingBox}
           onPress={() =>
@@ -220,7 +205,10 @@ export default function SettingsScreen() {
         </TouchableOpacity>
 
         {schoolYearOpen && (
-          <View style={styles.dropdown}>
+          <ScrollView
+            style={styles.dropdown}
+            nestedScrollEnabled
+          >
             {schoolYears.map(item => (
               <TouchableOpacity
                 key={item}
@@ -234,14 +222,14 @@ export default function SettingsScreen() {
                   style={[
                     styles.dropdownText,
                     item === schoolYear &&
-                    styles.activeDropdownText
+                    styles.activeDropdownText,
                   ]}
                 >
                   {item}
                 </Text>
               </TouchableOpacity>
             ))}
-          </View>
+          </ScrollView>
         )}
 
         {/* BUTTON */}
@@ -264,6 +252,5 @@ export default function SettingsScreen() {
         )}
       </View>
     </TouchableWithoutFeedback>
-
   );
 }

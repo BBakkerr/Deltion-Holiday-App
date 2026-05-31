@@ -39,9 +39,9 @@ export function generateSchoolYears() {
   const currentYear = new Date().getFullYear();
   const years = [];
 
-  for (let year = currentYear - 2; year <= currentYear + 5; year++) {
+  for (let year = 2000; year <= 2050; year++) {
     years.push(`${year}-${year + 1}`);
   }
 
-  return years;
+  return years.reverse();
 }

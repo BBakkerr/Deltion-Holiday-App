@@ -220,6 +220,7 @@ savedMessageText: {
 dropdown: {
   width: '82%',
   maxWidth: 500,
+  maxHeight: 150,
   backgroundColor: '#ded8da',
   borderRadius: 10,
   marginTop: -18,
