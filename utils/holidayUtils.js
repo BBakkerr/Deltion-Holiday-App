@@ -6,7 +6,7 @@ export function getVacationsForSchoolYear(
   if (!apiData) return [];
 
   const yearData = apiData.content.find(
-    item => item.schoolyear.trim() === schoolYear
+    item => item.schoolyear.trim() === schoolYear.trim()
   );
 
   if (!yearData) return [];
@@ -15,10 +15,14 @@ export function getVacationsForSchoolYear(
     .map(vacation => {
       const vacationRegion =
         vacation.regions.find(
-          r => r.region === region.toLowerCase()
+          r =>
+            r.region.toLowerCase() ===
+            region.toLowerCase()
         ) ||
         vacation.regions.find(
-          r => r.region === 'heel Nederland'
+          r =>
+            r.region.toLowerCase() ===
+            'heel nederland'
         );
 
       if (!vacationRegion) return null;
@@ -34,9 +38,8 @@ export function getVacationsForSchoolYear(
     })
     .filter(Boolean);
 }
-
 export function generateSchoolYears() {
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
   const years = [];
 
   for (let year = 2000; year <= 2050; year++) {
