@@ -42,7 +42,7 @@ export function generateSchoolYears() {
   // const currentYear = new Date().getFullYear();
   const years = [];
 
-  for (let year = 2000; year <= 2050; year++) {
+  for (let year = 2000; year <= 2028; year++) {
     years.push(`${year}-${year + 1}`);
   }
 

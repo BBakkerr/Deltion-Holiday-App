@@ -37,46 +37,67 @@ export default function CountdownScreen() {
 
   useEffect(() => {
     async function loadData() {
-      const savedRegion =
-        await AsyncStorage.getItem('region');
+      try {
+        const savedRegion =
+          await AsyncStorage.getItem('region');
 
-      const savedSchoolYear =
-        await AsyncStorage.getItem('schoolYear');
+        const savedSchoolYear =
+          await AsyncStorage.getItem('schoolYear');
 
-      const region = savedRegion || 'Noord';
-      const schoolYear = savedSchoolYear || '2025-2026';
+        const region = savedRegion || 'Noord';
+        const schoolYear = savedSchoolYear || '2025-2026';
 
-      const data = await getHolidayData();
+        const data = await getHolidayData();
 
-      const vacations =
-        getVacationsForSchoolYear(
-          data,
-          schoolYear,
-          region
+        const vacations =
+          getVacationsForSchoolYear(
+            data,
+            schoolYear,
+            region
+          );
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const upcomingVacations =
+          vacations
+            .map(vacation => ({
+              ...vacation,
+              start: new Date(vacation.startDate + 'T00:00:00'),
+            }))
+            .filter(
+              vacation => vacation.start >= today
+            )
+            .sort(
+              (a, b) => a.start - b.start
+            );
+
+        if (upcomingVacations.length > 0) {
+          const next = upcomingVacations[0];
+
+          const diffTime =
+            next.start.getTime() -
+            today.getTime();
+
+          const diffDays = Math.ceil(
+            diffTime /
+              (1000 * 60 * 60 * 24)
+          );
+
+          setNextVacation(next);
+          setDaysLeft(diffDays);
+        } else {
+          setNextVacation(null);
+          setDaysLeft(null);
+        }
+      } catch (error) {
+        console.error(
+          'Fout bij laden countdown:',
+          error
         );
 
-      const today = new Date();
-
-      const upcomingVacations =
-        vacations
-          .map(vacation => ({
-            ...vacation,
-            start: new Date(vacation.startDate),
-          }))
-          .filter(vacation => vacation.start >= today)
-          .sort((a, b) => a.start - b.start);
-
-      if (upcomingVacations.length > 0) {
-        const next = upcomingVacations[0];
-
-        const diffTime =
-          next.start.getTime() - today.getTime();
-
-        const diffDays =
-          Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        setNextVacation(next);
-        setDaysLeft(diffDays);
+        setNextVacation(null);
+        setDaysLeft(null);
       }
     }
 
@@ -92,7 +113,9 @@ export default function CountdownScreen() {
           {nextVacation ? (
             <>
               <Text style={styles.countdownText}>
-                {getHolidayIcon(nextVacation.name)}
+                {getHolidayIcon(
+                  nextVacation.name
+                )}
               </Text>
 
               <Text style={styles.countdownText}>
