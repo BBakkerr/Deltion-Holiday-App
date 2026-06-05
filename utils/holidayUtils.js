@@ -1,45 +1,61 @@
-export function getVacationsForSchoolYear(
-  apiData,
-  schoolYear,
-  region
-) {
-  if (!apiData) return [];
+export function getVacationsForSchoolYear(data, schoolYear, region) {
+  if (!data) return [];
 
-  const yearData = apiData.content.find(
-    item => item.schoolyear.trim() === schoolYear.trim()
-  );
+  const selectedYear = Array.isArray(data)
+    ? data.find(item => item.canonical?.includes(schoolYear))
+    : data;
 
-  if (!yearData) return [];
+  if (!selectedYear) return [];
 
-  return yearData.vacations
-    .map(vacation => {
-      const vacationRegion =
-        vacation.regions.find(
-          r =>
-            r.region.toLowerCase() ===
-            region.toLowerCase()
-        ) ||
-        vacation.regions.find(
-          r =>
-            r.region.toLowerCase() ===
-            'heel nederland'
-        );
+  const yearContent = selectedYear?.content?.[0];
 
-      if (!vacationRegion) return null;
+  const rawVacations =
+    yearContent?.vacations ||
+    selectedYear?.vacations ||
+    [];
 
-      return {
-        name: vacation.type.trim(),
-        compulsory:
-          vacation.compulsorydates === 'true',
-        startDate: vacationRegion.startdate,
-        endDate: vacationRegion.enddate,
-        region: vacationRegion.region,
-      };
-    })
-    .filter(Boolean);
+  const vacations = [];
+
+  const normalizeRegion = value => {
+    if (!value) return '';
+
+    const text = value.toString().trim().toLowerCase();
+
+    if (text.includes('noord')) return 'Noord';
+    if (text.includes('midden')) return 'Midden';
+    if (text.includes('zuid')) return 'Zuid';
+    if (text.includes('heel')) return 'Heel Nederland';
+
+    return value.toString().trim();
+  };
+
+  rawVacations.forEach(item => {
+    const name =
+      item.type?.trim() ||
+      item.title?.trim() ||
+      'Vakantie';
+
+    item.regions.forEach(regionItem => {
+      const regionName = normalizeRegion(regionItem.region);
+
+      if (
+        regionName === normalizeRegion(region) ||
+        regionName === 'Heel Nederland'
+      ) {
+        vacations.push({
+          name,
+          region: regionName,
+          startDate: new Date(regionItem.startdate),
+          endDate: new Date(regionItem.enddate),
+        });
+      }
+    });
+  });
+
+  return vacations;
 }
+
 export function generateSchoolYears() {
-  // const currentYear = new Date().getFullYear();
   const years = [];
 
   for (let year = 2000; year <= 2028; year++) {

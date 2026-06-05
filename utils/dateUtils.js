@@ -1,11 +1,8 @@
-export function calculateDays(startDate) {
+export function calculateDays(dateString) {
+  const now = new Date();
+  const future = new Date(dateString);
 
-  const today = new Date();
+  const diff = future - now;
 
-  const difference =
-    new Date(startDate) - today;
-
-  return Math.ceil(
-    difference / (1000 * 60 * 60 * 24)
-  );
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }

@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  // Countdown styles
   countdownWrapper: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -260,6 +261,12 @@ map: {
   marginBottom: 15,
   alignSelf: 'center',
 },
+// Overzicht
+  containerOverzicht: {
+  flex: 1,
+  backgroundColor: '#d3d3d3',
+
+  }  
 });
 
 export default styles;
