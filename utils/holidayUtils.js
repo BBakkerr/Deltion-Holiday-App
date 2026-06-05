@@ -58,7 +58,7 @@ export function getVacationsForSchoolYear(data, schoolYear, region) {
 export function generateSchoolYears() {
   const years = [];
 
-  for (let year = 2000; year <= 2028; year++) {
+  for (let year = 2025; year <= 2028; year++) {
     years.push(`${year}-${year + 1}`);
   }
 
