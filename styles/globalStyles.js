@@ -105,12 +105,11 @@ const styles = StyleSheet.create({
   },
 
   // Countdown styles
-  countdownWrapper: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: isMobile ? 160 : 200,
-  },
+countdownWrapper: {
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
 
   countdownBox: {
     width: '85%',
@@ -133,8 +132,9 @@ const styles = StyleSheet.create({
   holidayName: {
     fontSize: isMobile ? 28 : 30,
     marginTop: 15,
-    color: '#000',
+    color: '#fff',
     textAlign: 'center',
+    fontWeight: 'bold',
   },
 
  containerAbout: {

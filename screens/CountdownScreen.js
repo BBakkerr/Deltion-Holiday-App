@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  View,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
+import { View,Text,ActivityIndicator, } from 'react-native';
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/globalStyles';
 import InfoBlock from '../components/InfoBlock';
 import { getHolidayData } from '../api/holidayApi';
@@ -15,11 +12,23 @@ export default function CountdownScreen() {
   const [daysLeft, setDaysLeft] = useState(null);
   const [holidayName, setHolidayName] = useState('');
   const [loading, setLoading] = useState(true);
+  const [holidayIcon, setHolidayIcon] = useState('calendar');
 
   useEffect(() => {
     loadData();
   }, []);
 
+  function getHolidayIcon(holidayName) {
+  const name = holidayName.toLowerCase();
+
+  if (name.includes('zomer')) return 'white-balance-sunny';
+  if (name.includes('herfst')) return 'leaf';
+  if (name.includes('kerst')) return 'pine-tree';
+  if (name.includes('voorjaar')) return 'ice-skate';
+  if (name.includes('mei')) return 'flower';
+
+  return 'calendar';
+}
   async function loadData() {
     setLoading(true);
 
@@ -76,6 +85,7 @@ const nextVacation = vacations
 
         setDaysLeft(days);
         setHolidayName(nextVacation.name);
+        setHolidayIcon(getHolidayIcon(nextVacation.name));
       } else {
         setDaysLeft(null);
         setHolidayName('Geen volgende vakantie');
@@ -102,17 +112,24 @@ const nextVacation = vacations
  return (
   <View style={styles.screen}>
     <InfoBlock />
+<View style={styles.countdownWrapper}>
+    <View style={styles.countdownBox}>
+      <MaterialCommunityIcons
+        name={holidayIcon}
+        size={60}
+        color="#fff"
+        style={{ marginBottom: 10 }}
+      />
 
-    <View style={styles.countdownWrapper}>
-      <View style={styles.countdownBox}>
-        <Text style={styles.countdownText}>
-          {daysLeft !== null ? `${daysLeft} dagen` : '--'}
-        </Text>
+      <Text style={styles.countdownText}>
+        {daysLeft !== null ? `${daysLeft} dagen` : '--'}
+      </Text>
 
-        <Text style={styles.holidayName}>
-          {holidayName}
-        </Text>
-      </View>
+      <Text style={styles.holidayName} >
+        
+        {holidayName}
+      </Text>
+    </View>
     </View>
   </View>
 );
