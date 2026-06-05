@@ -24,7 +24,7 @@ export default function CountdownScreen() {
   if (name.includes('zomer')) return 'white-balance-sunny';
   if (name.includes('herfst')) return 'leaf';
   if (name.includes('kerst')) return 'pine-tree';
-  if (name.includes('voorjaar')) return 'ice-skate';
+  if (name.includes('voorjaar')) return 'snowflake';
   if (name.includes('mei')) return 'flower';
 
   return 'calendar';

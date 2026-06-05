@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   // Countdown styles
 countdownWrapper: {
   flex: 1,
+  marginTop: -120,
   alignItems: 'center',
   justifyContent: 'center',
 },
@@ -262,11 +263,50 @@ map: {
   alignSelf: 'center',
 },
 // Overzicht
-  containerOverzicht: {
-  flex: 1,
-  backgroundColor: '#d3d3d3',
+overzichtBox: {
+  backgroundColor: '#ff6f00',
+  margin: 20,
+  marginTop: 80,
+  borderRadius: 8,
+  overflow: 'hidden',
+},
 
-  }  
+overzichtRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingVertical: 14,
+  paddingHorizontal: 10,
+  borderBottomWidth: 2,
+  borderBottomColor: '#fff',
+},
+
+overzichtIcon: {
+  width: 42,
+},
+
+overzichtNaam: {
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: 16,
+  flex: 1,
+},
+
+overzichtRechts: {
+  alignItems: 'center',
+  flex: 1,
+},
+
+overzichtDagen: {
+  color: '#fff',
+  fontWeight: 'bold',
+  fontSize: 16,
+},
+
+overzichtDatum: {
+  color: '#fff',
+  fontSize: 15,
+  textAlign: 'center',
+},
 });
 
 export default styles;
