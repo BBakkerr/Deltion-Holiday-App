@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import styles from '../styles/globalStyles';
 
@@ -8,6 +9,9 @@ export default function InfoBlock() {
   const [region, setRegion] = useState('Noord');
   const [gps, setGps] = useState('Actief');
   const [schoolYear, setSchoolYear] = useState('2025-2026');
+
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
 
   useEffect(() => {
     async function loadSettings() {
@@ -24,16 +28,16 @@ export default function InfoBlock() {
   }, []);
 
   return (
-    <View style={styles.infoBlock}>
-      <Text style={styles.infoTitle}>Regio: {region}</Text>
+   <View style={[styles.infoBlock, isLandscape && styles.infoBlockLandscape]}>
+  <Text style={styles.infoTitle}>Regio: {region}</Text>
 
-      <Text style={styles.infoYear}>
-        ◷ {schoolYear}
-      </Text>
+  <Text style={[styles.infoYear, isLandscape && styles.infoTextLandscape]}>
+      <MaterialIcons name="access-time" size={15} color="black" />{schoolYear}
+  </Text>
 
-      <Text style={styles.infoGps}>
-        <Text style={styles.bold}>GPS:</Text> {gps}
-      </Text>
-    </View>
+  <Text style={[styles.infoGps, isLandscape && styles.infoTextLandscape]}>
+    <Text style={styles.bold}>GPS:</Text> {gps}
+  </Text>
+</View>
   );
 }

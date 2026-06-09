@@ -14,10 +14,10 @@ export default function AboutScreen() {
 
       <View style={styles.containerAbout}>
         <Text style={styles.aboutTitle}>
-          About Deltion Holiday App
+          Over Deltion Holiday App
         </Text>
         <Text style={styles.aboutDescription}>
-          This app was created to help students and parents easily keep track of school holidays in the Netherlands. It provides a countdown to the next holiday and an overview of all upcoming holidays based on the selected school year and region.
+          Deze app is ontwikkeld om studenten en ouders te helpen de schoolvakanties in Nederland gemakkelijk bij te houden. De app biedt een aftelling naar de volgende vakantie en een overzicht van alle komende vakanties op basis van het geselecteerde schooljaar en de geselecteerde regio.
         </Text>
       </View>
     </ScrollView>

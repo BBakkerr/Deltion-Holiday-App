@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View,Text,ActivityIndicator, } from 'react-native';
+import { View,Text,ActivityIndicator,useWindowDimensions } from 'react-native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/globalStyles';
@@ -17,6 +17,9 @@ export default function CountdownScreen() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const { width, height } = useWindowDimensions();
+const isLandscape = width > height;
 
   function getHolidayIcon(holidayName) {
   const name = holidayName.toLowerCase();
@@ -112,7 +115,8 @@ const nextVacation = vacations
  return (
   <View style={styles.screen}>
     <InfoBlock />
-<View style={styles.countdownWrapper}>
+<View
+  style={[styles.countdownWrapper, isLandscape && { paddingTop: 30 }, ]}>    
     <View style={styles.countdownBox}>
       <MaterialCommunityIcons
         name={holidayIcon}

@@ -11,6 +11,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 
 import styles from '../styles/globalStyles';
@@ -61,6 +62,10 @@ export default function SettingsScreen() {
     loadSettings();
   }, []);
 
+
+ const { width, height } = useWindowDimensions();
+ const isLandscape = width > height;
+ 
   async function updateRegionFromGps() {
     const { status } =
       await Location.requestForegroundPermissionsAsync();
@@ -233,8 +238,10 @@ export default function SettingsScreen() {
         )}
         {gps === 'Actief' && (
           <MapView
-            style={styles.map}
-            showsUserLocation={true}
+            style={[
+              styles.map,
+              isLandscape && { width: '65%', height: 240 },
+            ]}
           />
         )}
 
