@@ -307,6 +307,35 @@ overzichtDatum: {
   fontSize: 15,
   textAlign: 'center',
 },
+
+// About styles
+containerAbout: {
+  alignItems: 'center',
+  paddingHorizontal: 40,
+  marginTop: 30,
+},
+
+aboutTitle: {
+  fontSize: isMobile ? 34 : 44,
+  fontWeight: 'bold',
+  color: '#000',
+  textAlign: 'center',
+  lineHeight: isMobile ? 48 : 58,
+},
+aboutDescription: {
+  fontSize: isMobile ? 18 : 22,
+  color: '#000',
+  textAlign: 'center',
+  marginTop: 20,
+  marginBottom: 50,
+},
+aboutImage: {
+  width: 300,
+  height: 300,
+  borderRadius: 20,
+  alignSelf: 'center',
+  marginTop: 20,
+},
 });
 
 export default styles;
