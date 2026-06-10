@@ -63,9 +63,9 @@ export default function SettingsScreen() {
   }, []);
 
 
- const { width, height } = useWindowDimensions();
- const isLandscape = width > height;
- 
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
+
   async function updateRegionFromGps() {
     const { status } =
       await Location.requestForegroundPermissionsAsync();
@@ -242,6 +242,8 @@ export default function SettingsScreen() {
               styles.map,
               isLandscape && { width: '65%', height: 240 },
             ]}
+            showsUserLocation={true}
+            followsUserLocation={true}
           />
         )}
 
